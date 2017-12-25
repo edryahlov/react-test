@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fetch from 'node-fetch';
-import {modifyPath} from "./functions"
+import {getBreedName, modifyPath} from "./functions"
+import {Image} from "./Image"
 
 export class List extends React.Component {
 
@@ -25,7 +26,10 @@ export class List extends React.Component {
         //ставим дефолтную картинку
         if (!this.state.pic) {
             fetch('https://dog.ceo/api/breeds/image/random').then(res => res.json()).then(json => {
-                this.setState({pic:json.message});
+                this.setState({
+                    pic: json.message,
+                    breed: getBreedName(json.message)
+                });
             });
         }
         //добываем список пород
@@ -39,13 +43,15 @@ export class List extends React.Component {
         });
     }
     render() {
+        let textCenter = {'textAlign':'center'};
         return (
-            <div>
-                <select name="breedSelect" onChange={this.handleChange} value={this.state.breed}>
-                    {this.state.breeds ? this.state.breeds.map(breed=><option value={breed}>{breed}</option>) : '<option value="">loading...</option>'}
-                </select>
-                <p>Порода: {this.state.breed}</p>
-                <img src={this.state.pic}/>
+            <div style={textCenter}>
+                <p><b>Порода:</b>&nbsp;
+                    <select name="breedSelect" onChange={this.handleChange} value={this.state.breed}>
+                        {this.state.breeds ? this.state.breeds.map(breed=><option value={breed} key={breed}>{breed.charAt(0).toUpperCase() + breed.slice(1)}</option>) : '<option value="">loading...</option>'}
+                    </select>
+                </p>
+                <Image src={this.state.pic} breed={this.state.breed}/>
             </div>
         );
     }

@@ -2,6 +2,7 @@
   "name": "react-test",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://egenius.rocks/sites/react-test/",
   "dependencies": {
     "node-fetch": "^1.7.3",
     "react": "^16.2.0",
